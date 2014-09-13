@@ -1,0 +1,13 @@
+body {
+    height: 2000px;
+}
+.fix {
+    position: fixed;
+    right: 50px;
+}
+.box {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #245269;
+    overflow: auto;
+}
