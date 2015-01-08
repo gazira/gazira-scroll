@@ -1,4 +1,4 @@
-var $ = require('$');
+var $ = require('jquery');
 require('wheel');
 
 var helper = {
