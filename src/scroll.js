@@ -35,7 +35,6 @@ var r = {
             n = el.scrollHeight;
         }
         if (n < 0) {
-            console.log(el.scrollHeight);
             n = el.scrollHeight + n;
         }
         if (animateConfig) {
@@ -65,13 +64,14 @@ var r = {
         });
     },
     listen: function (node, actions, prevent) {
-        var status = {};
-        var prevTop = $(node).scrollTop();
+        node = $(node);
+        var el = node[0];
+        var prevTop = node.scrollTop();
         var fn = function (e, dir) {
             if (dir) {
                 var result = helper.detect(node);
-                var top = $(node).scrollTop();
-                status.bottom = (node === document ? document.body : node).scrollHeight - parseFloat((node === document) ? document.documentElement.clientHeight : node.clientHeight);
+                var top = node.scrollTop();
+                status.bottom = (el === document ? document.body : el).scrollHeight - parseFloat((el === document) ? document.documentElement.clientHeight : el.clientHeight);
                 if (actions.other) {
                     actions.other(e, top, dir, status);
                 }
@@ -89,18 +89,17 @@ var r = {
                 }
             }
         };
-        node = node[0] || node;
-        node = (node === document || node === document.body) ? window : node; // IE下需要$(window).scroll可以监听，用document则不行
-        $(node).scroll(function (e) {
-            var scrollTop = $(node).scrollTop();
+        el = (el === document || el === document.body) ? window : el; // IE下需要$(window).scroll可以监听，用document则不行
+        $(el).scroll(function (e) {
+            var scrollTop = node.scrollTop();
             var dir = scrollTop > prevTop ? 'down' : scrollTop < prevTop ? 'up' : '';
             prevTop = scrollTop;
             if (dir) {
                 fn(e.originalEvent, dir);
             }
         });
-        if (node !== window && prevent !== false) {
-            r.prevent(node);
+        if (el !== window && prevent !== false) {
+            r.prevent(el);
         }
     }
 };
